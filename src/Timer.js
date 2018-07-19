@@ -8,25 +8,23 @@ class Timer extends Component {
       }
    }
 
-   componentDidMount() {
-      this.timerID = setInterval(
-         () => this.tick(),
-         1000
-      );
-   }
-
    tick() {
-      this.setState({
-         currTime: new Date().getTime()
-      });
+      if (!this.props.gameWon) {
+         this.setState({
+            currTime: new Date().getTime()
+         });
+      }
    }
 
    render() {
       if (this.props.gameWon) {
          clearInterval(this.timerID);
-      }
+      } else if (this.props.startTime === null || this.state.currTime - this.props.startTime < 0) {
+         this.timerID = setInterval(
+            () => this.tick(),
+            1000
+         );
 
-      if (this.props.startTime === null || this.state.currTime - this.props.startTime < 0) {
          return (
             <div>
                {'00:00'}
