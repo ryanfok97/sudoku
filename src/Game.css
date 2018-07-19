@@ -1,0 +1,40 @@
+.game {
+   text-align: center;
+}
+
+.controls {
+   float: left;
+   margin-left: 409px;
+   margin-top: 100px;
+}
+
+.stacked {
+   float: left;
+   position: absolute;
+}
+
+.undoRedoButton {
+   background-color: #cbebf2;
+   border: 2px solid black;
+   border-radius: 10px;
+   clear: both;
+   float: left;
+   font-weight: bold;
+   font-size: 24px;
+   height: 50px;
+   margin: 10px;
+   width: 105px;
+}
+
+.resetButton {
+   background-color: #db4c30;
+   border: 2px solid black;
+   border-radius: 10px;
+   clear: both;
+   float: left;
+   font-weight: bold;
+   font-size: 24px;
+   height: 50px;
+   margin: 10px;
+   width: 105px;
+}

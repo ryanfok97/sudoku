@@ -1,0 +1,38 @@
+.cell {
+   border: 2px solid black;
+   background-color: #cbebf2;
+   float: left;
+   font-size: 36px;
+   font-weight: bold;
+   height: 40px;
+   line-height: 40px;
+   margin-right: -1px;
+   margin-top: -1px;
+   padding: 0px;
+   text-align: center;
+   width: 40px;
+}
+
+.invalid, .invalid.numSelected {
+   background-color: #ff6c4f;
+}
+
+.invalid.unclickable {
+   background-color: #bf4a33;
+}
+
+.invalid.numSelected.unclickable {
+   background-color: #db4c30;
+}
+
+.numSelected {
+   background-color: #fff8d3;
+}
+
+.numSelected.unclickable {
+   background-color: #d3c88f;
+}
+
+.unclickable {
+   background-color: #8fb2ba;
+}

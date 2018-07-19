@@ -1,0 +1,11 @@
+.board {
+   border: 3px solid black;
+   border-radius: 5px;
+   margin: 20px;
+   width: 363px;
+}
+
+.board-row {
+   clear: both;
+   display: flex;
+}
