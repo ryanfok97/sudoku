@@ -20,10 +20,12 @@ class Timer extends Component {
       if (this.props.gameWon) {
          clearInterval(this.timerID);
       } else if (this.props.startTime === null || this.state.currTime - this.props.startTime < 0) {
-         this.timerID = setInterval(
-            () => this.tick(),
-            1000
-         );
+         if (!this.timerID || this.props.playAgain) {
+            this.timerID = setInterval(
+               () => this.tick(),
+               1000
+            );
+         }
 
          return (
             <div>

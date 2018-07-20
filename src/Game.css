@@ -8,9 +8,31 @@
    margin-top: 100px;
 }
 
+.highlight {
+   background-color: #fff482;
+}
+
+.sideBySide {
+   display: flex;
+}
+
 .stacked {
    float: left;
    position: absolute;
+}
+
+.toggleNote {
+   background-color: #cbebf2;
+   border: 2px solid black;
+   border-radius: 10px;
+   float: right;
+   font-size: 24px;
+   font-weight: bold;
+   height: 40px;
+   line-height: 40px;
+   margin: 1px;
+   padding: 0px;
+   text-align: center;
 }
 
 .undoRedoButton {

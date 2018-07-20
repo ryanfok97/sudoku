@@ -13,7 +13,9 @@ class Game extends Component {
          history: [{
             cells: board
          }],
+         isNote: false,
          move: 0,
+         playAgain: null,
          selected: null,
          startTime: null
       }
@@ -92,6 +94,12 @@ class Game extends Component {
       })
    }
 
+   toggleNote() {
+      this.setState({
+         isNote: !this.state.isNote
+      });
+   }
+
    playAgain() {
       let board = this.generateBoard();
       this.setState({
@@ -99,6 +107,7 @@ class Game extends Component {
             cells: board
          }],
          move: 0,
+         playAgain: true,
          selected: null,
          startTime: null
       });
@@ -158,6 +167,7 @@ class Game extends Component {
       const current = history[this.state.move];
       const gameOver = checkWin(current.cells);
       const gameWon = gameOver ? <GameWon onClick={() => this.playAgain()}/> : null;
+      const toggleNote = this.state.isNote ? 'toggleNote highlight' : 'toggleNote';
 
       return (
          <div className="game">
@@ -170,14 +180,23 @@ class Game extends Component {
                   selected={this.state.selected}
                   unclickable={(box, row, col) => this.unclickable(history[0].cells, box, row, col)}
                />
-               <PickNumber
-                  onClick={(num) => this.handleClickNumbers(num)}
-                  selected={this.state.selected}
-               />
+               <div className="sideBySide">
+                  <PickNumber
+                     onClick={(num) => this.handleClickNumbers(num)}
+                     selected={this.state.selected}
+                  />
+                  <button
+                     className={toggleNote}
+                     onClick={() => this.toggleNote()}
+                  >
+                     NOTE
+                  </button>
+               </div>
             </div>
             <div className="controls">
                <Timer
                   gameWon={gameOver}
+                  playAgain={this.state.playAgain}
                   startTime={this.state.startTime}
                />
                <button

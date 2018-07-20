@@ -1,20 +1,24 @@
 import React, { Component } from 'react';
 import Number from './Number';
+import './PickNumber.css';
 
 class PickNumber extends Component {
    render() {
       let numbers = [];
 
       for (let i = 0; i < 9; i++) {
+         let classes = this.props.selected === i + 1 ? 'num highlight' : 'num';
          numbers.push(
-            <Number
+            <button
                key={i + 1}
-               highlight={this.props.selected === i + 1 ? 'highlight' : ''}
-               num={i + 1}
+               className={classes}
                onClick={() => this.props.onClick(i + 1)}
-            />
+            >
+               {i + 1}
+            </button>
          );
       }
+
 
       return (
          <div>{numbers}</div>

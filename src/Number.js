@@ -1,5 +1,5 @@
 import React from 'react';
-import './Number.css';
+import './PickNumber.css';
 
 function Number(props) {
    let classes = 'num ' + props.highlight;
