@@ -8,7 +8,7 @@ import Timer from './Timer';
 class Game extends Component {
    constructor(props) {
       super(props);
-      let board = this.generateBoard();
+      let board = generateBoard(Array(81).fill(null));
       this.state = {
          history: [{
             cells: board
@@ -19,32 +19,6 @@ class Game extends Component {
          selected: null,
          startTime: null
       }
-   }
-
-   generateBoard() {
-      const boards = [
-         '200700001800010095014000800000006072000907000790500000003000610620040009100006003',
-         '000243000807090000000000003650309002003020600200108034400000000000040702000356000',
-         '000000060800003072760800054035007000000090000000600580790001086250900007010000000',
-         '000000000030500040802001750030040590400070002085010030016900203090001080000000000',
-         '000003420080000006000070500506000009193000572700000106002090000060300000045800000',
-         '000079000070508302500300078300015700000000000002680009850004007106705030000860000',
-         '000000000093000145150000627003507040000000000070806300394000056256000730000000000',
-         '000060100190300008603005009300040008000080000400090006600900703700003029004020000',
-         '000009000080400001090000058080001040210647098070300060310000050800003070000700000',
-         '000031700100470000020000060000090406034000850106040000020000060000045002008670000'
-         // '283679541974518362516324978396415728487293651152687439852934167146725839793861240'
-      ];
-
-      const cells = Array(81).fill(null);
-      const board = boards[Math.floor(Math.random() * boards.length)];
-      const boardNums = board.split("");
-
-      for (let i = 0; i < 81; i++) {
-         cells[i] = boardNums[i] === "0" ? null : parseInt(boardNums[i], 10);
-      }
-
-      return cells;
    }
 
    handleClickBoard(box, row, col, selected) {
@@ -194,6 +168,7 @@ class Game extends Component {
                {gameWon}
                <SudokuBoard
                   cells={current.cells}
+                  invalidate={(box, row, col) => invalidate(current.cells, box, row, col)}
                   isNote={this.state.isNote}
                   move={this.state.move}
                   onClick={(box, row, col) => this.handleClickBoard(box, row, col, this.state.selected)}
@@ -250,6 +225,8 @@ function checkWin(cells) {
          for (let k = j + 1; k < 9; k++) {
             if (cells[i * 9 + j] === null ||
                   cells[i * 9 + k] === null ||
+                  Array.isArray(cells[i * 9 + j]) ||
+                  Array.isArray(cells[i * 9 + k]) ||
                   cells[i * 9 + j] === cells[i * 9 + k]) {
                return null;
             }
@@ -264,6 +241,8 @@ function checkWin(cells) {
          for (let k = j + 1; k < 9; k++) {
             if (cells[9 * (lbox + Math.floor(j / 3)) + 3 * (i % 3) + (j % 3)] === null ||
                   cells[9 * (lbox + Math.floor(k / 3)) + 3 * (i % 3) + (k % 3)] === null ||
+                  Array.isArray(cells[9 * (lbox + Math.floor(j / 3)) + 3 * (i % 3) + (j % 3)]) ||
+                  Array.isArray(cells[9 * (lbox + Math.floor(k / 3)) + 3 * (i % 3) + (k % 3)]) ||
                   cells[9 * (lbox + Math.floor(j / 3)) + 3 * (i % 3) + (j % 3)] ===
                   cells[9 * (lbox + Math.floor(k / 3)) + 3 * (i % 3) + (k % 3)]) {
                return null;
@@ -279,6 +258,8 @@ function checkWin(cells) {
          for (let k = j + 1; k < 9; k++) {
             if (cells[9 * (tbox + 3 * Math.floor(j / 3)) + 3 * (j % 3) + i % 3] === null ||
                   cells[9 * (tbox + 3 * Math.floor(k / 3)) + 3 * (k % 3) + i % 3] === null ||
+                  Array.isArray(cells[9 * (tbox + 3 * Math.floor(j / 3)) + 3 * (j % 3) + i % 3]) ||
+                  Array.isArray(cells[9 * (tbox + 3 * Math.floor(k / 3)) + 3 * (k % 3) + i % 3]) ||
                   cells[9 * (tbox + 3 * Math.floor(j / 3)) + 3 * (j % 3) + i % 3] ===
                   cells[9 * (tbox + 3 * Math.floor(k / 3)) + 3 * (k % 3) + i % 3]) {
                return null;
@@ -287,6 +268,92 @@ function checkWin(cells) {
       }
    }
    return true;
+}
+
+function generateBoard(cells) {
+   const boards = [
+      '200700001800010095014000800000006072000907000790500000003000610620040009100006003',
+      '000243000807090000000000003650309002003020600200108034400000000000040702000356000',
+      '000000060800003072760800054035007000000090000000600580790001086250900007010000000',
+      '000000000030500040802001750030040590400070002085010030016900203090001080000000000',
+      '000003420080000006000070500506000009193000572700000106002090000060300000045800000',
+      '000079000070508302500300078300015700000000000002680009850004007106705030000860000',
+      '000000000093000145150000627003507040000000000070806300394000056256000730000000000',
+      '000060100190300008603005009300040008000080000400090006600900703700003029004020000',
+      '000009000080400001090000058080001040210647098070300060310000050800003070000700000',
+      '000031700100470000020000060000090406034000850106040000020000060000045002008670000'
+      // '283679541974518362516324978396415728487293651152687439852934167146725839793861240'
+   ];
+
+   const board = boards[Math.floor(Math.random() * boards.length)];
+   const boardNums = board.split("");
+
+   for (let i = 0; i < 81; i++) {
+      cells[i] = boardNums[i] === "0" ? null : parseInt(boardNums[i], 10);
+   }
+
+   // // base case
+   // if (!cells.includes(null)) {
+   //    return cells;
+   // }
+   //
+   // // recursive case
+   // let randCell = Math.floor(Math.random() * cells.length);
+   // while (cells[randCell]) {
+   //    randCell = Math.floor(Math.random() * cells.length); // find empty cell
+   // }
+   //
+   // const col = randCell % 3;
+   // const box = Math.floor(randCell / 9);
+   // const row = Math.floor()
+   //
+   // while (cells.includes(null)) {
+   //    if (!cells[randCell]) { // cell is empty
+   //
+   //    }
+   // }
+
+   return cells;
+}
+
+function invalidate(cells, box, row, col) {
+   // validate boxes
+   for (let i = 0; i < 9; i++) {
+      for (let j = i + 1; j < 9; j++) {
+         if (cells[box * 9 + i] !== null &&
+               cells[box * 9 + j] !== null &&
+               cells[box * 9 + i] === cells[box * 9 + j]) {
+            return 'invalid';
+         }
+      }
+   }
+
+   let lbox = 3 * Math.floor(box / 3); // left box in row
+   // validate row
+   for (let i = 0; i < 9; i++) {
+      for (let j = i + 1; j < 9; j++) {
+         if (cells[9 * (lbox + Math.floor(i / 3)) + 3 * (row % 3) + (i % 3)] !== null &&
+               cells[9 * (lbox + Math.floor(j / 3)) + 3 * (row % 3) + (j % 3)] !== null &&
+               cells[9 * (lbox + Math.floor(i / 3)) + 3 * (row % 3) + (i % 3)] ===
+               cells[9 * (lbox + Math.floor(j / 3)) + 3 * (row % 3) + (j % 3)]) {
+            return 'invalid';
+         }
+      }
+   }
+
+   let tbox = box % 3; // top box in col
+   // validate col
+   for (let i = 0; i < 9; i++) {
+      for (let j = i + 1; j < 9; j++) {
+         if (cells[9 * (tbox + 3 * Math.floor(i / 3)) + 3 * (i % 3) + col % 3] !== null &&
+               cells[9 * (tbox + 3 * Math.floor(j / 3)) + 3 * (j % 3) + col % 3] !== null &&
+               cells[9 * (tbox + 3 * Math.floor(i / 3)) + 3 * (i % 3) + col % 3] ===
+               cells[9 * (tbox + 3 * Math.floor(j / 3)) + 3 * (j % 3) + col % 3]) {
+            return 'invalid';
+         }
+      }
+   }
+   return null;
 }
 
 export default Game;

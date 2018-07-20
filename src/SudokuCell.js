@@ -12,14 +12,17 @@ class SudokuCell extends Component {
 
    renderNotes() {
       const arr = this.props.value;
-      let res = '';
+      let res = [];
       for (let i = 0; i < 3; i++) {
+         let row = [];
          for (let j = 0; j < 3; j++) {
-            if (arr[3 * i + j] !== null) {
-               res += arr[3 * i + j] + '  ';
+            if (j === 2) {
+               row.push(arr[3 * i + j] !== null ? arr[3 * i + j] : ' ');
+            } else {
+               row.push(arr[3 * i + j] !== null ? arr[3 * i + j] + ' ' : ' ');
             }
          }
-         res += '\n';
+         res.push(<div className='noteRow'>{row}</div>);
       }
       return res;
    }
@@ -37,5 +40,11 @@ class SudokuCell extends Component {
       );
    }
 }
+
+// function Note(props) {
+//    return (
+//       {props.value}
+//    );
+// }
 
 export default SudokuCell;

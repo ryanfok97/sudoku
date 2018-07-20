@@ -4,7 +4,6 @@ import SudokuCell from './SudokuCell';
 
 class SudokuBox extends Component {
    renderCell(box, row, col) {
-
       return (
          <SudokuCell
             key={box * 9 + 3 * (3 * (Math.floor(box / 3)) + row) + (3 * box % 3 + col)}
