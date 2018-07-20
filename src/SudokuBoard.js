@@ -11,6 +11,7 @@ class SudokuBoard extends Component {
             box={box}
             cells={this.props.cells}
             invalid={(row, col) => invalidate(this.props.cells, box, row, col)}
+            isNote={this.props.isNote}
             numSelected={(row, col) => numSelected(this.props.cells, box, row, col, this.props.selected)}
             onClick={(row, col) => this.props.onClick(box, row, col)}
             unclickable={(row, col) => this.props.unclickable(box, row, col)}
@@ -38,6 +39,9 @@ class SudokuBoard extends Component {
 }
 
 function numSelected(cells, box, row, col, selected) {
+   if (selected !== null && Array.isArray(cells[box * 9 + row * 3 + col])) {
+      return cells[box * 9 + row * 3 + col].includes(selected) ? 'numSelected' : null;
+   }
    if (selected !== null) {
       return cells[box * 9 + row * 3 + col] === selected ? 'numSelected' : null;
    }

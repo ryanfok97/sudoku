@@ -51,9 +51,10 @@ class Game extends Component {
       const history = this.state.history.slice(0, this.state.move + 1);
       const current = history[history.length - 1];
       const cells = current.cells.slice();
+      const cell = box * 9 + row * 3 + col
       let time = this.state.startTime;
 
-      if (checkWin(cells) || history[0].cells[box * 9 + row * 3 + col] !== null) {
+      if (checkWin(cells) || history[0].cells[cell] !== null) {
          return;
       }
 
@@ -62,7 +63,25 @@ class Game extends Component {
       }
 
       if (selected !== null) {
-         cells[box * 9 + row * 3 + col] = cells[box * 9 + row * 3 + col] === selected ? null : selected;
+         if (this.state.isNote && (Array.isArray(cells[cell]) || cells[cell] === null)) {
+            let res = cells[cell] === null ? Array(9).fill(null) : cells[cell];
+            for (let i = 0; i < 9; i++) {
+               if (cells[cell] !== null) {
+                  if (i + 1 === selected) {
+                     res[i] = cells[cell].includes(selected) ? null : i + 1;
+                  } else {
+                     res[i] = cells[cell].includes(i + 1) ? i + 1 : null;
+                  }
+               } else {
+                  res[selected - 1] = selected;
+               }
+            }
+            cells[cell] = res;
+         } else if (this.state.isNote) {
+            return;
+         } else {
+            cells[cell] = cells[cell] === selected ? null : selected;
+         }
       }
 
       this.setState({
@@ -175,6 +194,7 @@ class Game extends Component {
                {gameWon}
                <SudokuBoard
                   cells={current.cells}
+                  isNote={this.state.isNote}
                   move={this.state.move}
                   onClick={(box, row, col) => this.handleClickBoard(box, row, col, this.state.selected)}
                   selected={this.state.selected}
