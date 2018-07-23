@@ -41,10 +41,4 @@ class SudokuCell extends Component {
    }
 }
 
-// function Note(props) {
-//    return (
-//       {props.value}
-//    );
-// }
-
 export default SudokuCell;
