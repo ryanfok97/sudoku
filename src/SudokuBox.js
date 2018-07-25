@@ -12,6 +12,8 @@ class SudokuBox extends Component {
             isNote={this.props.isNote}
             numSelected={this.props.numSelected(row, col)}
             unclickable={this.props.unclickable(row, col)}
+            verify={this.props.verify(row, col)}
+            verifyClicked={this.props.verifyClicked}
             onClick={() => this.props.onClick(row, col)}
          />
       );

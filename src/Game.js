@@ -18,7 +18,8 @@ class Game extends Component {
          playAgain: null,
          selected: null,
          solution: board[1],
-         startTime: null
+         startTime: null,
+         verifyClicked: null
       }
    }
 
@@ -65,7 +66,8 @@ class Game extends Component {
             loc: [box, row, col]
          }]),
          move: history.length,
-         startTime: time
+         startTime: time,
+         verifyClicked: null
       });
    }
 
@@ -84,7 +86,8 @@ class Game extends Component {
       num = this.state.selected === null || this.state.selected !== num ? num : null; // for select/deselect
       this.setState({
          selected: num,
-         startTime: time
+         startTime: time,
+         verifyClicked: null
       })
    }
 
@@ -104,7 +107,8 @@ class Game extends Component {
          playAgain: true,
          selected: null,
          solution: board[1],
-         startTime: null
+         startTime: null,
+         verifyClicked: null
       });
    }
 
@@ -117,7 +121,8 @@ class Game extends Component {
 
       if (move !== history.length - 1) {
          this.setState({
-            move: move + 1
+            move: move + 1,
+            verifyClicked: null
          });
       }
    }
@@ -131,7 +136,8 @@ class Game extends Component {
 
       if (move > 0) {
          this.setState({
-            move: move - 1
+            move: move - 1,
+            verifyClicked: null
          });
       }
    }
@@ -149,12 +155,25 @@ class Game extends Component {
          history: [{
             cells: initialBoard
          }],
-         move: 0
+         move: 0,
+         verifyClicked: null
       });
    }
 
    unclickable(initialBoard, box, row, col) {
       return initialBoard[box * 9 + row * 3 + col] !== null ? 'unclickable' : null;
+   }
+
+   verify(box, row, col) {
+      const history = this.state.history;
+      const current = history[this.state.move];
+
+      if (current.cells[box * 9 + row * 3 + col] === null) {
+         return;
+      }
+
+      return current.cells[box * 9 + row * 3 + col] !== this.state.solution[box * 9 + row * 3 + col] ?
+         'invalid' : null;
    }
 
    render() {
@@ -173,9 +192,11 @@ class Game extends Component {
                   invalidate={(box, row, col) => invalidate(current.cells, box, row, col)}
                   isNote={this.state.isNote}
                   move={this.state.move}
-                  onClick={(box, row, col) => this.handleClickBoard(box, row, col, this.state.selected)}
                   selected={this.state.selected}
                   unclickable={(box, row, col) => this.unclickable(history[0].cells, box, row, col)}
+                  verify={(box, row, col) => this.verify(box, row, col)}
+                  verifyClicked={this.state.verifyClicked}
+                  onClick={(box, row, col) => this.handleClickBoard(box, row, col, this.state.selected)}
                />
                <div className="sideBySide">
                   <PickNumber
@@ -222,7 +243,7 @@ class Game extends Component {
                </button>
                <button
                   className="verifyButton"
-                  onClick={() => verify(current.cells, this.state.solution)}
+                  onClick={() => this.setState({ verifyClicked: true })}
                >
                   VERIFY
                </button>
@@ -340,8 +361,9 @@ function invalidate(cells, box, row, col) {
       for (let j = i + 1; j < 9; j++) {
          if (cells[box * 9 + i] !== null &&
                cells[box * 9 + j] !== null &&
-               cells[box * 9 + i] === cells[box * 9 + j]) {
-            return 'invalid';
+               cells[box * 9 + row * 3 + col] === cells[box * 9 + i] &&
+               cells[box * 9 + row * 3 + col] === cells[box * 9 + j]) {
+            return cells[box * 9 + i] === cells[box * 9 + j] ? 'invalid' : null;
          }
       }
    }
@@ -352,9 +374,10 @@ function invalidate(cells, box, row, col) {
       for (let j = i + 1; j < 9; j++) {
          if (cells[9 * (lbox + Math.floor(i / 3)) + 3 * (row % 3) + (i % 3)] !== null &&
                cells[9 * (lbox + Math.floor(j / 3)) + 3 * (row % 3) + (j % 3)] !== null &&
-               cells[9 * (lbox + Math.floor(i / 3)) + 3 * (row % 3) + (i % 3)] ===
-               cells[9 * (lbox + Math.floor(j / 3)) + 3 * (row % 3) + (j % 3)]) {
-            return 'invalid';
+               cells[box * 9 + row * 3 + col] === cells[9 * (lbox + Math.floor(i / 3)) + 3 * (row % 3) + (i % 3)] &&
+               cells[box * 9 + row * 3 + col] === cells[9 * (lbox + Math.floor(j / 3)) + 3 * (row % 3) + (j % 3)]) {
+            return cells[9 * (lbox + Math.floor(i / 3)) + 3 * (row % 3) + (i % 3)] ===
+               cells[9 * (lbox + Math.floor(j / 3)) + 3 * (row % 3) + (j % 3)] ? 'invalid' : null;
          }
       }
    }
@@ -365,19 +388,14 @@ function invalidate(cells, box, row, col) {
       for (let j = i + 1; j < 9; j++) {
          if (cells[9 * (tbox + 3 * Math.floor(i / 3)) + 3 * (i % 3) + col % 3] !== null &&
                cells[9 * (tbox + 3 * Math.floor(j / 3)) + 3 * (j % 3) + col % 3] !== null &&
-               cells[9 * (tbox + 3 * Math.floor(i / 3)) + 3 * (i % 3) + col % 3] ===
-               cells[9 * (tbox + 3 * Math.floor(j / 3)) + 3 * (j % 3) + col % 3]) {
-            return 'invalid';
+               cells[box * 9 + row * 3 + col] === cells[9 * (tbox + 3 * Math.floor(i / 3)) + 3 * (i % 3) + col % 3] &&
+               cells[box * 9 + row * 3 + col] === cells[9 * (tbox + 3 * Math.floor(j / 3)) + 3 * (j % 3) + col % 3]) {
+            return cells[9 * (tbox + 3 * Math.floor(i / 3)) + 3 * (i % 3) + col % 3] ===
+               cells[9 * (tbox + 3 * Math.floor(j / 3)) + 3 * (j % 3) + col % 3] ? 'invalid' : null;
          }
       }
    }
    return null;
-}
-
-function verify(cells, solution) {
-   for (let i = 0; i < 81; i++) {
-      return cells[i] === solution[i] ? null : 'invalid';
-   }
 }
 
 export default Game;

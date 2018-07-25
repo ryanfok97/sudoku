@@ -13,11 +13,19 @@ class SudokuBoard extends Component {
             invalid={(row, col) => this.props.invalidate(box, row, col)}
             isNote={this.props.isNote}
             numSelected={(row, col) => numSelected(this.props.cells, box, row, col, this.props.selected)}
-            onClick={(row, col) => this.props.onClick(box, row, col)}
             unclickable={(row, col) => this.props.unclickable(box, row, col)}
+            verify={(row, col) => this.props.verify(box, row, col)}
+            verifyClicked={this.props.verifyClicked}
+            onClick={(row, col) => this.props.onClick(box, row, col)}
          />
       );
    }
+
+   // verify(cells, solution) {
+   //    for (let i = 0; i < 81; i++) {
+   //       return cells[i] !== solution[i] ? 'invalid' : null;
+   //    }
+   // }
 
    render() {
       let board = [];
