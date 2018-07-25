@@ -26,7 +26,7 @@ class Game extends Component {
    handleClickBoard(box, row, col, selected) {
       const history = this.state.history.slice(0, this.state.move + 1);
       const current = history[history.length - 1];
-      const cells = current.cells.slice();
+      let cells = current.cells.slice();
       const cell = box * 9 + row * 3 + col
       let time = this.state.startTime;
 
@@ -55,7 +55,22 @@ class Game extends Component {
             cells[cell] = res;
          } else if (this.state.isNote) {
             return;
+         // click on cell with selected number, should undo all notes but not working yet
+         // } else if (cells[cell] === selected) {
+         //    const prev = history[history.length - 2];
+         //    cells = prev.cells.slice();
+         //    cells[cell] = null;
+         //
+         //    this.setState({
+         //       history: history.concat([{
+         //          cells: cells.slice()
+         //       }]),
+         //       move: history.length,
+         //       startTime: time,
+         //       verifyClicked: null
+         //    });
          } else {
+            // cells = cells[cell] === selected ? cells : clearNotes(cells, box, row, col, selected);
             cells[cell] = cells[cell] === selected ? null : selected;
          }
       }
@@ -63,7 +78,6 @@ class Game extends Component {
       this.setState({
          history: history.concat([{
             cells: cells,
-            loc: [box, row, col]
          }]),
          move: history.length,
          startTime: time,
@@ -168,7 +182,8 @@ class Game extends Component {
       const history = this.state.history;
       const current = history[this.state.move];
 
-      if (current.cells[box * 9 + row * 3 + col] === null) {
+      if (current.cells[box * 9 + row * 3 + col] === null ||
+            Array.isArray(current.cells[box * 9 + row * 3 + col])) {
          return;
       }
 
@@ -303,6 +318,36 @@ function checkWin(cells) {
       }
    }
    return true;
+}
+
+function clearNotes(cells, box, row, col, selected) {
+   let lbox = 3 * Math.floor(box / 3);
+   let tbox = box % 3;
+
+   for (let i = 0; i < 9; i++) {
+      if (Array.isArray(cells[box * 9 + i]) &&
+            cells[box * 9 + i].includes(selected)) {
+         let res = cells[box * 9 + i].slice();
+         res[selected - 1] = null;
+         cells[box * 9 + i] = res;
+      }
+
+      if (Array.isArray(cells[9 * (lbox + Math.floor(i / 3)) + 3 * (row % 3) + (i % 3)]) &&
+            cells[9 * (lbox + Math.floor(i / 3)) + 3 * (row % 3) + (i % 3)].includes(selected)) {
+         let res = cells[9 * (lbox + Math.floor(i / 3)) + 3 * (row % 3) + (i % 3)];
+         res[selected - 1] = null;
+         cells[9 * (lbox + Math.floor(i / 3)) + 3 * (row % 3) + (i % 3)] = res;
+      }
+
+      if (Array.isArray(cells[9 * (tbox + 3 * Math.floor(i / 3)) + 3 * (i % 3) + col % 3]) &&
+            cells[9 * (tbox + 3 * Math.floor(i / 3)) + 3 * (i % 3) + col % 3].includes(selected)) {
+         let res = cells[9 * (tbox + 3 * Math.floor(i / 3)) + 3 * (i % 3) + col % 3];
+         res[selected - 1] = null;
+         cells[9 * (tbox + 3 * Math.floor(i / 3)) + 3 * (i % 3) + col % 3] = res;
+      }
+   }
+
+   return cells;
 }
 
 function generateBoard(cells, solution) {

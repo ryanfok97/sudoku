@@ -15,8 +15,7 @@
 
 .noteRow {
    clear: both;
-   display: table;
-   padding-left: 1px;
+   display: block;
    text-align: center;
 }
 

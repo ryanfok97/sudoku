@@ -22,12 +22,12 @@ class SudokuCell extends Component {
          let row = [];
          for (let j = 0; j < 3; j++) {
             if (j === 2) {
-               row.push(arr[3 * i + j] !== null ? arr[3 * i + j] : ' ');
+               row.push(arr[3 * i + j] !== null ? arr[3 * i + j] : null);
             } else {
-               row.push(arr[3 * i + j] !== null ? arr[3 * i + j] + ' ' : ' ');
+               row.push(arr[3 * i + j] !== null ? arr[3 * i + j] + ' ' : null);
             }
          }
-         res.push(<div className='noteRow'>{row}</div>);
+         res.push(<div key={3 * i} className='noteRow'>{row}</div>);
       }
       return res;
    }
