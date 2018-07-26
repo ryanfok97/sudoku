@@ -1,6 +1,6 @@
 .cell {
    border: 2px solid black;
-   background-color: #cbebf2;
+   background-color: #c6c2b6;
    float: left;
    font-size: 36px;
    font-weight: bold;
@@ -25,7 +25,7 @@
 
 .note {
    border: 2px solid black;
-   background-color: #cbebf2;
+   background-color: #c6c2b6;
    float: left;
    font-size: 12px;
    font-weight: bold;
@@ -41,28 +41,30 @@
 
 .note.numSelected {
    background-color: #fff8d3;
+   color: black;
 }
 
 .invalid, .invalid.numSelected {
-   background-color: #ff6c4f;
+   background-color: #c93828;
 }
 
-.invalid.unclickable {
-   background-color: #bf4a33;
-}
-
-.invalid.numSelected.unclickable {
-   background-color: #db4c30;
+.invalid.unclickable, .invalid.numSelected.unclickable {
+   background-color: #c93828;
 }
 
 .numSelected {
-   background-color: #fff8d3;
+   background-color: #c6c2b6;
+   color: #241de5;
+   text-shadow: -2px 2px 0 white,
+                  2px 2px 0 white,
+                  2px -2px 0 white,
+                  -2px -2px 0 white;
 }
 
 .numSelected.unclickable {
-   background-color: #d3c88f;
+   background-color: #a09a88;
 }
 
 .unclickable {
-   background-color: #8fb2ba;
+   background-color: #a09a88;
 }

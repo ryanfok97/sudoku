@@ -22,7 +22,7 @@
 }
 
 .toggleNote {
-   background-color: #cbebf2;
+   background-color: #c6c2b6;
    border: 2px solid black;
    border-radius: 10px;
    float: right;
@@ -36,7 +36,7 @@
 }
 
 .undoRedoButton {
-   background-color: #cbebf2;
+   background-color: #c6c2b6;
    border: 2px solid black;
    border-radius: 10px;
    clear: both;
