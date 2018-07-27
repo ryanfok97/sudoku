@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Number from './Number';
 import './PickNumber.css';
 
 class PickNumber extends Component {

@@ -6,10 +6,10 @@ class SudokuCell extends Component {
       if (Array.isArray(this.props.value)) {
          return 'note ' + this.props.numSelected;
       }
-      if (this.props.verifyClicked) {
+      if (this.props.checkClicked) {
          return 'cell ' + this.props.invalid + ' ' +
             this.props.numSelected + ' ' + this.props.unclickable + ' ' +
-            this.props.verify;
+            this.props.check;
       }
       return 'cell ' + this.props.invalid + ' ' +
          this.props.numSelected + ' ' + this.props.unclickable;

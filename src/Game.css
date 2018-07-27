@@ -61,7 +61,7 @@
    width: 105px;
 }
 
-.newPuzButton, .verifyButton {
+.newPuzButton, .checkButton {
    background-color: #72c966;
    border: 2px solid black;
    border-radius: 10px;

@@ -14,14 +14,14 @@ class SudokuBoard extends Component {
             isNote={this.props.isNote}
             numSelected={(row, col) => numSelected(this.props.cells, box, row, col, this.props.selected)}
             unclickable={(row, col) => this.props.unclickable(box, row, col)}
-            verify={(row, col) => this.props.verify(box, row, col)}
-            verifyClicked={this.props.verifyClicked}
+            check={(row, col) => this.props.check(box, row, col)}
+            checkClicked={this.props.checkClicked}
             onClick={(row, col) => this.props.onClick(box, row, col)}
          />
       );
    }
 
-   // verify(cells, solution) {
+   // check(cells, solution) {
    //    for (let i = 0; i < 81; i++) {
    //       return cells[i] !== solution[i] ? 'invalid' : null;
    //    }
