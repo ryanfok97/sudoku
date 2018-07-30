@@ -56,21 +56,22 @@ class Game extends Component {
          } else if (this.state.isNote) {
             return;
          // click on cell with selected number, should undo all notes but not working yet
-         // } else if (cells[cell] === selected) {
-         //    const prev = history[history.length - 2];
-         //    cells = prev.cells.slice();
-         //    cells[cell] = null;
-         //
-         //    this.setState({
-         //       history: history.concat([{
-         //          cells: cells.slice()
-         //       }]),
-         //       move: history.length,
-         //       startTime: time,
-         //       checkClicked: null
-         //    });
          } else if (cells[cell] === selected) {
-            cells[cell] = null;
+            // TODO: need to make it so that clicking on cell again will undo the auto-clear
+            // of notes BUT still have notes be in valid places
+            
+            // Test case: put notes down, place a number (A) down, place a number (B) down,
+            // click on number (A) again to remove it from that cell --> should nullify
+            // number (A) and re-place notes that were auto-cleared by placing number (A),
+            // but at the same time should not re-place notes that conflict with number (B)
+            let iter = 2;
+            // while (history[history.length - iter].cells[cell] === selected) {
+            //    iter++;
+            // }
+            let prev = history[history.length - iter];
+            const prevCells = prev.cells.slice();
+            cells = prevCells;
+            cells[cell] = Array.isArray(prevCells[cell]) ? prevCells[cell].slice() : null;
          } else {
             cells = clearNotes(cells, box, row, col, selected);
             cells[cell] = selected;
