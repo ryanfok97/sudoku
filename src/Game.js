@@ -69,9 +69,11 @@ class Game extends Component {
          //       startTime: time,
          //       checkClicked: null
          //    });
+         } else if (cells[cell] === selected) {
+            cells[cell] = null;
          } else {
-            // cells = cells[cell] === selected ? cells : clearNotes(cells, box, row, col, selected);
-            cells[cell] = cells[cell] === selected ? null : selected;
+            cells = clearNotes(cells, box, row, col, selected);
+            cells[cell] = selected;
          }
       }
 
@@ -334,14 +336,14 @@ function clearNotes(cells, box, row, col, selected) {
 
       if (Array.isArray(cells[9 * (lbox + Math.floor(i / 3)) + 3 * (row % 3) + (i % 3)]) &&
             cells[9 * (lbox + Math.floor(i / 3)) + 3 * (row % 3) + (i % 3)].includes(selected)) {
-         let res = cells[9 * (lbox + Math.floor(i / 3)) + 3 * (row % 3) + (i % 3)];
+         let res = cells[9 * (lbox + Math.floor(i / 3)) + 3 * (row % 3) + (i % 3)].slice();
          res[selected - 1] = null;
          cells[9 * (lbox + Math.floor(i / 3)) + 3 * (row % 3) + (i % 3)] = res;
       }
 
       if (Array.isArray(cells[9 * (tbox + 3 * Math.floor(i / 3)) + 3 * (i % 3) + col % 3]) &&
             cells[9 * (tbox + 3 * Math.floor(i / 3)) + 3 * (i % 3) + col % 3].includes(selected)) {
-         let res = cells[9 * (tbox + 3 * Math.floor(i / 3)) + 3 * (i % 3) + col % 3];
+         let res = cells[9 * (tbox + 3 * Math.floor(i / 3)) + 3 * (i % 3) + col % 3].slice();
          res[selected - 1] = null;
          cells[9 * (tbox + 3 * Math.floor(i / 3)) + 3 * (i % 3) + col % 3] = res;
       }
