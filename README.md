@@ -36,3 +36,4 @@ In no particular order:
 *  Change position of notes to be fixed within a cell
 *  Add responsiveness for correct check (currently only changes render when player's
    solution is wrong)
+*  Fix functionality of re-clicking on a cell and re-placing notes
