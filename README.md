@@ -5,6 +5,8 @@
 
 ## Change Log
 
+*  **07/31/2018:**
+   *  Added functionality to undo/redo a reset of the board
 *  **07/30/2018:**
    *  Notes auto-clear when numbers are placed down
    *  Re-clicking on a cell with a number will re-place notes that existed previously

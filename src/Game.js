@@ -55,19 +55,18 @@ class Game extends Component {
             cells[cell] = res;
          } else if (this.state.isNote) {
             return;
-         // click on cell with selected number, should undo all notes but not working yet
          } else if (cells[cell] === selected) {
             // TODO: need to make it so that clicking on cell again will undo the auto-clear
             // of notes BUT still have notes be in valid places
-            
+
             // Test case: put notes down, place a number (A) down, place a number (B) down,
             // click on number (A) again to remove it from that cell --> should nullify
             // number (A) and re-place notes that were auto-cleared by placing number (A),
             // but at the same time should not re-place notes that conflict with number (B)
             let iter = 2;
-            // while (history[history.length - iter].cells[cell] === selected) {
-            //    iter++;
-            // }
+            while (history[history.length - iter].cells[cell] === selected) {
+               iter++;
+            }
             let prev = history[history.length - iter];
             const prevCells = prev.cells.slice();
             cells = prevCells;
@@ -169,10 +168,10 @@ class Game extends Component {
       const initial = history[0];
       const initialBoard = initial.cells.slice();
       this.setState({
-         history: [{
+         history: history.concat([{
             cells: initialBoard
-         }],
-         move: 0,
+         }]),
+         move: history.length,
          checkClicked: null
       });
    }
