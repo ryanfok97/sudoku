@@ -1,11 +1,10 @@
-.game {
+* {
    text-align: center;
 }
 
-.controls {
-   float: left;
-   margin-left: 409px;
-   margin-top: 23px;
+.game {
+   display: flex;
+   margin: 20px;
 }
 
 .highlight {
@@ -14,11 +13,11 @@
 
 .sideBySide {
    display: flex;
+   margin-top: 20px;
 }
 
 .stacked {
-   float: left;
-   position: absolute;
+   display: block;
 }
 
 .toggleNote {

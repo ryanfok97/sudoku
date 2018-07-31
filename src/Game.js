@@ -228,7 +228,7 @@ class Game extends Component {
                   </button>
                </div>
             </div>
-            <div className="controls">
+            <div className="stacked">
                <Timer
                   gameWon={gameOver}
                   playAgain={this.state.playAgain}

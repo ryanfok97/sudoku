@@ -7,6 +7,7 @@
 
 *  **07/31/2018:**
    *  Added functionality to undo/redo a reset of the board
+   *  Stylistic changes to positions of game components
 *  **07/30/2018:**
    *  Notes auto-clear when numbers are placed down
    *  Re-clicking on a cell with a number will re-place notes that existed previously
@@ -39,3 +40,4 @@ In no particular order:
 *  Add responsiveness for correct check (currently only changes render when player's
    solution is wrong)
 *  Fix functionality of re-clicking on a cell and re-placing notes
+*  Add a pop-up that confirms an action (for reset and new game)
