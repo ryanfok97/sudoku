@@ -108,12 +108,22 @@ class Game extends Component {
    }
 
    toggleNote() {
+      const history = this.state.history;
+      const current = history[this.state.move];
+      if (checkWin(current.cells)) {
+         return;
+      }
+      
       this.setState({
          isNote: !this.state.isNote
       });
    }
 
-   playAgain() {
+   playAgain(button) {
+      if (!button) {
+         return;
+      }
+
       let board = generateBoard(Array(81).fill(null), Array(81).fill(null));
       this.setState({
          history: [{
@@ -198,7 +208,7 @@ class Game extends Component {
       const current = history[this.state.move];
       const gameOver = checkWin(current.cells);
       const gameWon = gameOver ?
-         <div className="winWrapper"><GameWon onClick={() => this.playAgain()}/></div> : null;
+         <div className="winWrapper"><GameWon onClick={() => this.playAgain(true)}/></div> : null;
       const toggleNote = this.state.isNote ? 'toggleNote highlight' : 'toggleNote';
 
       return (
@@ -255,7 +265,7 @@ class Game extends Component {
                </button>
                <button
                   className="newGameButton"
-                  onClick={() => this.playAgain()}
+                  onClick={() => this.playAgain(false)}
                >
                   NEW GAME
                </button>

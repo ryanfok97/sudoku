@@ -1,13 +1,14 @@
 ## Table of Contents
 
 - [Change Log](#change-log)
-- [Upcoming Changes](#upcoming-changes)
+- [Potential Changes](#potential-changes)
 
 ## Change Log
 
 *  **07/31/2018:**
    *  Added functionality to undo/redo a reset of the board
    *  Stylistic changes to positions of game components
+   *  All buttons are unclickable when the game is over
 *  **07/30/2018:**
    *  Notes auto-clear when numbers are placed down
    *  Re-clicking on a cell with a number will re-place notes that existed previously
@@ -32,7 +33,7 @@
 *  **07/19/2018:**
    *  Initial commit
 
-## Upcoming Changes
+## Potential Changes
 In no particular order:
 
 *  Generating unique sudoku puzzles
@@ -41,3 +42,4 @@ In no particular order:
    solution is wrong)
 *  Fix functionality of re-clicking on a cell and re-placing notes
 *  Add a pop-up that confirms an action (for reset and new game)
+*  Auto-switch selected number (when no more of that number can be placed)
