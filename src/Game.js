@@ -197,7 +197,8 @@ class Game extends Component {
       const history = this.state.history;
       const current = history[this.state.move];
       const gameOver = checkWin(current.cells);
-      const gameWon = gameOver ? <GameWon onClick={() => this.playAgain()}/> : null;
+      const gameWon = gameOver ?
+         <div className="winWrapper"><GameWon onClick={() => this.playAgain()}/></div> : null;
       const toggleNote = this.state.isNote ? 'toggleNote highlight' : 'toggleNote';
 
       return (
@@ -253,7 +254,7 @@ class Game extends Component {
                   RESET
                </button>
                <button
-                  className="newPuzButton"
+                  className="newGameButton"
                   onClick={() => this.playAgain()}
                >
                   NEW GAME
