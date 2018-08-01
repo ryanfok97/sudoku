@@ -8,6 +8,8 @@
 *  **08/01/2018:**
    *  On game start, default selected number is 1
    *  Selected number switches automatically when 9 valid positions are filled
+   *  Added popup to confirm reset or new game
+   *  Minor bug fixes that came along with changes made
 *  **07/31/2018:**
    *  Added functionality to undo/redo a reset of the board
    *  Stylistic changes to positions of game components
@@ -44,5 +46,3 @@ In no particular order:
 *  Add responsiveness for correct check (currently only changes render when player's
    solution is wrong)
 *  Fix functionality of re-clicking on a cell and re-placing notes
-*  Add a pop-up that confirms an action (for reset and new game)
-*  Auto-switch selected number (when no more of that number can be placed)

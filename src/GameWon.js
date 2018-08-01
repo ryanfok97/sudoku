@@ -4,7 +4,7 @@ import './GameWon.css'
 class GameWon extends Component {
    render() {
       return (
-         <div className="popup">
+         <div className="popupWin">
             <p>Congratulations!</p>
             <button
                className="playAgain"

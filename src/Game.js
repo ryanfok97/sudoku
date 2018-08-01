@@ -4,6 +4,7 @@ import SudokuBoard from './SudokuBoard';
 import PickNumber from './PickNumber';
 import GameWon from './GameWon';
 import Timer from './Timer';
+import ConfirmAction from './ConfirmAction';
 
 class Game extends Component {
    constructor(props) {
@@ -13,6 +14,7 @@ class Game extends Component {
          history: [{
             cells: board[0]
          }],
+         action: null,
          isNote: false,
          move: 0,
          playAgain: null,
@@ -30,7 +32,7 @@ class Game extends Component {
       const cell = box * 9 + row * 3 + col
       let time = this.state.startTime;
 
-      if (checkWin(cells) || history[0].cells[cell] !== null) {
+      if (checkWin(cells) || history[0].cells[cell] || this.state.action) {
          return;
       }
 
@@ -77,7 +79,15 @@ class Game extends Component {
          }
       }
 
-      selected = !invalidate(cells, box, row, col) && checkNum(cells, selected) === 9 ? selected + 1 : selected;
+      if (!checkWin(cells, box, row, col)) {
+         while (checkNum(cells, selected) === 9) {
+            if (selected === 9) {
+               selected = !invalidate(cells, box, row, col) ? 1 : selected;
+            } else {
+               selected = !invalidate(cells, box, row, col) ? selected + 1 : selected;
+            }
+         }
+      }
 
       this.setState({
          history: history.concat([{
@@ -94,7 +104,7 @@ class Game extends Component {
       const history = this.state.history;
       const current = history[this.state.move];
       let time = this.state.startTime;
-      if (checkWin(current.cells)) {
+      if (checkWin(current.cells) || this.state.action) {
          return;
       }
 
@@ -113,7 +123,7 @@ class Game extends Component {
    toggleNote() {
       const history = this.state.history;
       const current = history[this.state.move];
-      if (checkWin(current.cells)) {
+      if (checkWin(current.cells) || this.state.action) {
          return;
       }
 
@@ -132,9 +142,10 @@ class Game extends Component {
          history: [{
             cells: board[0]
          }],
+         action: null,
          move: 0,
          playAgain: true,
-         selected: null,
+         selected: 1,
          solution: board[1],
          startTime: null,
          checkClicked: null
@@ -144,7 +155,7 @@ class Game extends Component {
    redo(move) {
       const history = this.state.history;
       const current = history[this.state.move];
-      if (checkWin(current.cells)) {
+      if (checkWin(current.cells) || this.state.action) {
          return;
       }
 
@@ -159,7 +170,7 @@ class Game extends Component {
    undo(move) {
       const history = this.state.history;
       const current = history[this.state.move];
-      if (checkWin(current.cells)) {
+      if (checkWin(current.cells) || this.state.action) {
          return;
       }
 
@@ -184,6 +195,7 @@ class Game extends Component {
          history: history.concat([{
             cells: initialBoard
          }]),
+         action: null,
          move: history.length,
          checkClicked: null
       });
@@ -193,12 +205,25 @@ class Game extends Component {
       return initialBoard[box * 9 + row * 3 + col] !== null ? 'unclickable' : null;
    }
 
+   confirm(button) {
+      const history = this.state.history.slice();
+      const current = history[this.state.move];
+      if (checkWin(current.cells) || this.state.action) {
+         return;
+      }
+
+      this.setState({
+         action: button
+      })
+   }
+
    check(box, row, col) {
       const history = this.state.history;
       const current = history[this.state.move];
 
       if (current.cells[box * 9 + row * 3 + col] === null ||
-            Array.isArray(current.cells[box * 9 + row * 3 + col])) {
+            Array.isArray(current.cells[box * 9 + row * 3 + col]) ||
+            this.state.action) {
          return;
       }
 
@@ -211,13 +236,23 @@ class Game extends Component {
       const current = history[this.state.move];
       const gameOver = checkWin(current.cells);
       const gameWon = gameOver ?
-         <div className="winWrapper"><GameWon onClick={() => this.playAgain(true)}/></div> : null;
+         <div className="wrapper"><GameWon onClick={() => this.playAgain(true)}/></div> : null;
       const toggleNote = this.state.isNote ? 'toggleNote highlight' : 'toggleNote';
+      const action = this.state.action ?
+         <div className="wrapper">
+            <ConfirmAction
+               action={this.state.action}
+               cancel={() => this.setState({ action: null })}
+               playAgain={() => this.playAgain(true)}
+               reset={() => this.reset()}
+            />
+         </div> : null;
 
       return (
          <div className="game">
             <div className="stacked">
                {gameWon}
+               {action}
                <SudokuBoard
                   cells={current.cells}
                   invalidate={(box, row, col) => invalidate(current.cells, box, row, col)}
@@ -262,13 +297,13 @@ class Game extends Component {
                </button>
                <button
                   className="resetButton"
-                  onClick={() => this.reset()}
+                  onClick={() => this.confirm('reset')}
                >
                   RESET
                </button>
                <button
                   className="newGameButton"
-                  onClick={() => this.playAgain(false)}
+                  onClick={() => this.confirm('new game')}
                >
                   NEW GAME
                </button>

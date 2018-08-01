@@ -1,4 +1,15 @@
-.playAgain {
+.cancel {
+   background: #db4c30;
+   border: 2px solid black;
+   border-radius: 5px;
+   font-weight: bold;
+   font-size: 24px;
+   margin-left: 20px;
+   padding: 10px;
+   line-height: 36px;
+}
+
+.confirm {
    background: #a0fc8f;
    border: 2px solid black;
    border-radius: 5px;
@@ -8,7 +19,7 @@
    line-height: 36px;
 }
 
-.popupWin {
+.popupConfirm {
    background: #fff8d3;
    border: 4px solid black;
    border-radius: 10px;
@@ -18,10 +29,10 @@
    left: 0;
    right: 0;
    margin: auto;
-   margin-top: 103px;
+   margin-top: 87px;
    padding: 10px;
    padding-bottom: 20px;
    position: absolute;
    top: 50%;
-   width: 50%;
+   width: 60%;
 }
