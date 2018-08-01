@@ -16,7 +16,7 @@ class Game extends Component {
          isNote: false,
          move: 0,
          playAgain: null,
-         selected: null,
+         selected: 1,
          solution: board[1],
          startTime: null,
          checkClicked: null
@@ -77,11 +77,14 @@ class Game extends Component {
          }
       }
 
+      selected = !invalidate(cells, box, row, col) && checkNum(cells, selected) === 9 ? selected + 1 : selected;
+
       this.setState({
          history: history.concat([{
             cells: cells,
          }]),
          move: history.length,
+         selected: selected,
          startTime: time,
          checkClicked: null
       });
@@ -113,7 +116,7 @@ class Game extends Component {
       if (checkWin(current.cells)) {
          return;
       }
-      
+
       this.setState({
          isNote: !this.state.isNote
       });
@@ -279,6 +282,14 @@ class Game extends Component {
          </div>
       );
    }
+}
+
+function checkNum(cells, selected) {
+   let count = 0;
+   for (let i = 0; i < 81; i++) {
+      count = cells[i] === selected ? count + 1 : count;
+   }
+   return count;
 }
 
 function checkWin(cells) {

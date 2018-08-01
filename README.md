@@ -5,6 +5,9 @@
 
 ## Change Log
 
+*  **08/01/2018:**
+   *  On game start, default selected number is 1
+   *  Selected number switches automatically when 9 valid positions are filled
 *  **07/31/2018:**
    *  Added functionality to undo/redo a reset of the board
    *  Stylistic changes to positions of game components
