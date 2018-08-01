@@ -94,6 +94,7 @@ class Game extends Component {
             cells: cells,
          }]),
          move: history.length,
+         playAgain: null,
          selected: selected,
          startTime: time,
          checkClicked: null
